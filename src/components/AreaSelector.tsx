@@ -1,3 +1,4 @@
+import AreaComponent from "./AreaComponent";
 import Location from "./Location";
 
 export default function AreaSelector() {
@@ -7,6 +8,7 @@ export default function AreaSelector() {
         Area selector
       </h3>
       <Location />
+      <AreaComponent />
     </div>
   );
 }
