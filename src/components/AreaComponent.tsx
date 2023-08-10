@@ -1,11 +1,5 @@
 // import { Slider } from "@radix-ui/react-slider";
-import {
-  MapContainer,
-  TileLayer,
-  CircleMarker,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Circle, Marker, Popup } from "react-leaflet";
 import { LocationContext } from "@/context/Location.context";
 import { useContext, useState, useEffect } from "react";
 
@@ -35,9 +29,10 @@ export default function AreaComponent() {
 
   return (
     <div>
-      <h4 className="scroll-m-20 text-xl font-bold tracking-tight text-plastic-blue-dark text-left py-5">
-        Area
-      </h4>
+      <div className="flex justify-between">
+        <h4 className="text-xl font-bold text-plastic-blue-dark py-5">Area</h4>
+        <p className="text-plastic-blue-dark font-thin py-5">max 20 km</p>
+      </div>
       <div>
         <p>Slider</p>
         <MapContainer
@@ -55,13 +50,10 @@ export default function AreaComponent() {
             attribution=""
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <CircleMarker
-            center={[numericLatitude!, numericLongitude!]}
-            radius={100}
-          >
+          <Circle center={[numericLatitude!, numericLongitude!]} radius={1000}>
             <Marker position={[numericLatitude!, numericLongitude!]} />
             <Popup>You are here.</Popup>
-          </CircleMarker>
+          </Circle>
         </MapContainer>
       </div>
     </div>
