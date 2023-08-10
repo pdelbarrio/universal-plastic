@@ -8,3 +8,13 @@ export type LocationContextType = {
     newLongitude: CoordinateType
   ) => void;
 };
+
+export interface City {
+  id: number;
+  city: string;
+  timezone: string;
+  location: {
+    type: string;
+    coordinates: number[];
+  };
+}
