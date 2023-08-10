@@ -1,13 +1,14 @@
-import { City } from "@/types/types";
+import { City, Weather } from "@/types/types";
 import data from "../data/test_locations.json";
 import { useState, useEffect } from "react";
 
 export default function CityComponent() {
   const [city, setCity] = useState<City["city"]>("");
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState<Weather>();
 
   const apiKey = import.meta.env.VITE_API_KEY;
   const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
+  const baseIconUrl = "https://openweathermap.org/img/wn/";
 
   useEffect(() => {
     if (city) {
@@ -26,7 +27,35 @@ export default function CityComponent() {
     }
   }, [city]);
 
-  console.log(weatherData);
+  // console.log(weatherData);
+
+  const isDayTime = () => {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    return currentHour >= 6 && currentHour <= 18; // Assuming day time is between 6 AM and 6 PM
+  };
+
+  const isDay = isDayTime();
+
+  const getIconFilename = (description?: string) => {
+    switch (description) {
+      case "clear sky":
+        return isDay ? "01d.png" : "01n.png";
+      case "few clouds":
+        return isDay ? "02d.png" : "02n.png";
+      case "scattered clouds":
+        return isDay ? "03d.png" : "03n.png";
+      // Add more cases for other descriptions...
+      default:
+        return "default-icon.png"; // Default icon for unknown descriptions
+    }
+  };
+
+  const iconFilename = getIconFilename(weatherData?.weather[0].description);
+
+  const iconUrl = baseIconUrl + iconFilename;
+
+  console.log("iconurl", iconUrl);
 
   return (
     <div>
@@ -46,6 +75,74 @@ export default function CityComponent() {
             </option>
           ))}
         </select>
+      </div>
+      <div className="border border-plastic-blue rounded-lg p-4 mt-5">
+        <div className="flex flex-row justify-evenly">
+          <div>
+            <img src={iconUrl} alt={weatherData?.weather[0].description} />
+          </div>
+          <div>
+            <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
+              Weather
+            </span>
+            <p className="text-plastic-blue-dark font-semibold">
+              {weatherData?.weather[0].main}
+            </p>
+          </div>
+          <div>
+            <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
+              Description
+            </span>
+            <p className="text-plastic-blue-dark font-semibold">
+              {weatherData?.weather[0].description}
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-row justify-evenly">
+          <div>
+            <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
+              Sunset
+            </span>
+            <p className="text-plastic-blue-dark font-semibold">
+              {weatherData?.sys.sunset}
+            </p>
+          </div>
+          <div>
+            <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
+              Sunrise
+            </span>
+            <p className="text-plastic-blue-dark font-semibold">
+              {weatherData?.sys.sunrise}
+            </p>
+          </div>
+          <div>
+            <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
+              Location
+            </span>
+            <p className="text-plastic-blue-dark font-semibold">{city}</p>
+          </div>
+        </div>
+        <div className="flex flex-row justify-evenly">
+          <div>
+            <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
+              Temperature
+            </span>
+            <p className="text-plastic-blue-dark font-semibold">
+              {weatherData?.main.temp}
+            </p>
+          </div>
+          <div>
+            <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
+              Feels like
+            </span>
+            <p className="text-plastic-blue-dark font-semibold">
+              {weatherData?.main.feels_like}
+            </p>
+          </div>
+        </div>
+        <div>
+          <div>4</div>
+        </div>
       </div>
     </div>
   );
