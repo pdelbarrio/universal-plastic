@@ -40,13 +40,12 @@ export default function AreaComponent() {
     return null;
   }
 
-  const handleSliderChange = (value: number) => {
-    setCircleRadius(value * 200); //20km max
+  const handleSliderChange = (values: number[]) => {
+    const value = values[0]; // Assuming the Slider only returns a single value
+    setCircleRadius(value * 200); // 20km max
     setZoomLevel(value / 5);
   };
 
-  console.log("circleRadius", circleRadius);
-  console.log("zoomLevel", zoomLevel);
   return (
     <div>
       <div className="flex justify-between">
