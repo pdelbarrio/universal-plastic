@@ -1,13 +1,21 @@
-// import { Slider } from "@radix-ui/react-slider";
-import { MapContainer, TileLayer, Circle, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Circle,
+  Marker,
+  Popup,
+  useMap,
+} from "react-leaflet";
 import { LocationContext } from "@/context/Location.context";
 import { useContext, useState, useEffect } from "react";
+import { Slider } from "./ui/slider";
 
 export default function AreaComponent() {
   const { latitude, longitude } = useContext(LocationContext);
   const [numericLatitude, setNumericLatitude] = useState<number | null>(null);
   const [numericLongitude, setNumericLongitude] = useState<number | null>(null);
-  // const [selectedArea, setSelectedArea] = useState<number>(1);
+  const [zoomLevel, setZoomLevel] = useState(10);
+  const [circleRadius, setCircleRadius] = useState(1000);
 
   useEffect(() => {
     if (latitude !== null && longitude !== null) {
@@ -20,13 +28,25 @@ export default function AreaComponent() {
     return <p>Invalid data...</p>;
   }
 
-  // const handleAreaChange = (newValue) => {
-  //   setSelectedArea(newValue);
-  // };
+  function ChangeMapView({
+    center,
+    zoom,
+  }: {
+    center: [number, number];
+    zoom: number;
+  }) {
+    const map = useMap();
+    map.setView(center, zoom);
+    return null;
+  }
 
-  console.log("numericLatitude", typeof numericLatitude, numericLatitude);
-  console.log("numericLongitude", typeof numericLongitude, numericLongitude);
+  const handleSliderChange = (value: number) => {
+    setCircleRadius(value * 200); //20km max
+    setZoomLevel(value / 5);
+  };
 
+  console.log("circleRadius", circleRadius);
+  console.log("zoomLevel", zoomLevel);
   return (
     <div>
       <div className="flex justify-between">
@@ -34,7 +54,13 @@ export default function AreaComponent() {
         <p className="text-plastic-blue-dark font-thin py-5">max 20 km</p>
       </div>
       <div>
-        <p>Slider</p>
+        <Slider
+          defaultValue={[50]}
+          max={100}
+          className="pb-5"
+          onValueChange={(i) => handleSliderChange(i)}
+        />
+
         <MapContainer
           center={[numericLatitude!, numericLongitude!]}
           zoom={13}
@@ -46,11 +72,18 @@ export default function AreaComponent() {
             overflow: "hidden",
           }}
         >
+          <ChangeMapView
+            center={[numericLatitude!, numericLongitude!]}
+            zoom={zoomLevel}
+          />
           <TileLayer
             attribution=""
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Circle center={[numericLatitude!, numericLongitude!]} radius={1000}>
+          <Circle
+            center={[numericLatitude!, numericLongitude!]}
+            radius={circleRadius}
+          >
             <Marker position={[numericLatitude!, numericLongitude!]} />
             <Popup>You are here.</Popup>
           </Circle>
