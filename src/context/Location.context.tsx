@@ -1,14 +1,5 @@
 import { createContext, useState } from "react";
-import { CoordinateType } from "@/types/types";
-
-export type LocationContextType = {
-  latitude?: CoordinateType;
-  longitude?: CoordinateType;
-  updateCoordinates: (
-    newLatitude: CoordinateType,
-    newLongitude: CoordinateType
-  ) => void;
-};
+import { CoordinateType, LocationContextType } from "@/types/types";
 
 const LocationContext = createContext<LocationContextType>({
   latitude: null,
