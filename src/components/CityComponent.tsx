@@ -21,41 +21,21 @@ export default function CityComponent() {
           .then((response) => response.json())
           .then((data) => {
             setWeatherData(data);
-            console.log(data);
           });
       }
     }
   }, [city]);
 
-  // console.log(weatherData);
-
   const isDayTime = () => {
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
-    return currentHour >= 6 && currentHour <= 18; // Assuming day time is between 6 AM and 6 PM
+    return currentHour >= 6 && currentHour <= 18;
   };
 
   const isDay = isDayTime();
 
-  const getIconFilename = (description?: string) => {
-    switch (description) {
-      case "clear sky":
-        return isDay ? "01d.png" : "01n.png";
-      case "few clouds":
-        return isDay ? "02d.png" : "02n.png";
-      case "scattered clouds":
-        return isDay ? "03d.png" : "03n.png";
-      // Add more cases for other descriptions...
-      default:
-        return "default-icon.png"; // Default icon for unknown descriptions
-    }
-  };
-
-  const iconFilename = getIconFilename(weatherData?.weather[0].description);
-
-  const iconUrl = baseIconUrl + iconFilename;
-
-  console.log("iconurl", iconUrl);
+  const iconCode = weatherData?.weather[0].icon;
+  const finalIconCode = isDay ? iconCode : iconCode?.slice(0, -1) + "n";
 
   return (
     <div>
@@ -79,7 +59,10 @@ export default function CityComponent() {
       <div className="border border-plastic-blue rounded-lg p-4 mt-5">
         <div className="flex flex-row justify-evenly">
           <div>
-            <img src={iconUrl} alt={weatherData?.weather[0].description} />
+            <img
+              src={`${baseIconUrl}${finalIconCode}.png`}
+              alt={weatherData?.weather[0].description}
+            />
           </div>
           <div>
             <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
