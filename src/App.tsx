@@ -7,7 +7,7 @@ import { LocationProvider } from "./context/Location.context";
 
 function App() {
   return (
-    <div className="max-w-[375px] max-h-[812px] mx-auto m-2">
+    <div className="max-w-screen-sm mx-auto px-4">
       <LocationProvider>
         <BrowserRouter>
           <Routes>
