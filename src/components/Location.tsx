@@ -40,11 +40,11 @@ export default function Location() {
 
   return (
     <div className="">
-      <h4 className="scroll-m-20 text-xl font-bold tracking-tight text-plastic-blue-dark text-left py-5">
+      <h4 className="text-xl font-bold tracking-tight text-plastic-blue-dark text-left py-5">
         Location
       </h4>
       <div className="flex flex-row">
-        <div>
+        <div className="max-w-screen-sm">
           <p className="text-left uppercase text-plastic-blue-thin text-xs font-semibold pb-2">
             Latitude
           </p>
@@ -52,7 +52,7 @@ export default function Location() {
             type="text"
             value={latitude || ""}
             onChange={handleLatitudeChange}
-            className="bg-plastic-green-back rounded-tl-lg rounded-bl-lg p-2 text-plastic-blue-green  "
+            className="w-full bg-plastic-green-back rounded-tl-lg rounded-bl-lg p-2 text-plastic-blue-green"
           />
           {latitudeError && (
             <p className="text-red-600 text-xs">{latitudeError}</p>
@@ -66,7 +66,7 @@ export default function Location() {
             type="text"
             value={longitude || ""}
             onChange={handleLongitudeChange}
-            className="bg-plastic-green-back rounded-tr-lg rounded-br-lg p-2 text-plastic-blue-green border-plastic-blue-light border-l-2"
+            className="w-full bg-plastic-green-back rounded-tr-lg rounded-br-lg p-2 text-plastic-blue-green border-plastic-blue-light border-l-2"
           />
           {longitudeError && (
             <p className="text-red-600 text-xs">{longitudeError}</p>

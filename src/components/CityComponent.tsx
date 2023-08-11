@@ -55,7 +55,7 @@ export default function CityComponent() {
         </select>
       </div>
       <div className="border border-plastic-blue rounded-lg p-4 mt-5">
-        <div className="flex flex-row gap-5 border-b border-plastic-blue-light pb-3">
+        <div className="flex flex-row gap-5 md:gap-20 border-b border-plastic-blue-light pb-3">
           <div>
             <img
               src={
@@ -88,7 +88,7 @@ export default function CityComponent() {
             </p>
           </div>
         </div>
-        <div className="flex flex-row gap-10 py-2">
+        <div className="flex flex-row gap-10 md:gap-24 py-2">
           <div>
             <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
               Sunset
@@ -122,7 +122,7 @@ export default function CityComponent() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row gap-10">
+        <div className="flex flex-row gap-10 md:gap-32">
           <div>
             <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
               Temperature

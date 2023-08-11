@@ -64,9 +64,9 @@ export default function AreaComponent() {
           center={[numericLatitude!, numericLongitude!]}
           zoom={13}
           scrollWheelZoom={false}
+          className="responsive-map"
           style={{
-            width: "343px",
-            height: "180px",
+            height: "40vh",
             borderRadius: "8px",
             overflow: "hidden",
           }}
