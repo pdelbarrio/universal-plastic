@@ -1,5 +1,6 @@
 import { City, Weather } from "@/types/types";
 import data from "../data/test_locations.json";
+import { timestampToTime, formatTemperature, isDayTime } from "@/utils/utils";
 import { useState, useEffect } from "react";
 
 export default function CityComponent() {
@@ -25,12 +26,6 @@ export default function CityComponent() {
       }
     }
   }, [city]);
-
-  const isDayTime = () => {
-    const currentDate = new Date();
-    const currentHour = currentDate.getHours();
-    return currentHour >= 6 && currentHour <= 18;
-  };
 
   const isDay = isDayTime();
 
@@ -60,8 +55,13 @@ export default function CityComponent() {
         <div className="flex flex-row justify-evenly">
           <div>
             <img
-              src={`${baseIconUrl}${finalIconCode}.png`}
+              src={
+                weatherData?.weather[0].icon
+                  ? `${baseIconUrl}${finalIconCode}.png`
+                  : "../../public/question-mark-is-small-16.png"
+              }
               alt={weatherData?.weather[0].description}
+              className=""
             />
           </div>
           <div>
@@ -69,7 +69,9 @@ export default function CityComponent() {
               Weather
             </span>
             <p className="text-plastic-blue-dark font-semibold">
-              {weatherData?.weather[0].main}
+              {weatherData?.weather[0].main
+                ? weatherData?.weather[0].main
+                : "No data"}
             </p>
           </div>
           <div>
@@ -77,7 +79,9 @@ export default function CityComponent() {
               Description
             </span>
             <p className="text-plastic-blue-dark font-semibold">
-              {weatherData?.weather[0].description}
+              {weatherData?.weather[0].description
+                ? weatherData?.weather[0].description
+                : "No data"}
             </p>
           </div>
         </div>
@@ -87,7 +91,9 @@ export default function CityComponent() {
               Sunset
             </span>
             <p className="text-plastic-blue-dark font-semibold">
-              {weatherData?.sys.sunset}
+              {weatherData?.sys.sunset
+                ? timestampToTime(weatherData?.sys.sunset)
+                : "No data"}
             </p>
           </div>
           <div>
@@ -95,14 +101,18 @@ export default function CityComponent() {
               Sunrise
             </span>
             <p className="text-plastic-blue-dark font-semibold">
-              {weatherData?.sys.sunrise}
+              {weatherData?.sys.sunrise
+                ? timestampToTime(weatherData?.sys.sunrise)
+                : "No data"}
             </p>
           </div>
           <div>
             <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
               Location
             </span>
-            <p className="text-plastic-blue-dark font-semibold">{city}</p>
+            <p className="text-plastic-blue-dark font-semibold">
+              {city ? city : "No data"}
+            </p>
           </div>
         </div>
         <div className="flex flex-row justify-evenly">
@@ -111,7 +121,9 @@ export default function CityComponent() {
               Temperature
             </span>
             <p className="text-plastic-blue-dark font-semibold">
-              {weatherData?.main.temp}
+              {weatherData?.main.temp
+                ? formatTemperature(weatherData?.main.temp)
+                : "No data"}
             </p>
           </div>
           <div>
@@ -119,7 +131,9 @@ export default function CityComponent() {
               Feels like
             </span>
             <p className="text-plastic-blue-dark font-semibold">
-              {weatherData?.main.feels_like}
+              {weatherData?.main.feels_like
+                ? formatTemperature(weatherData?.main.feels_like)
+                : "No data"}
             </p>
           </div>
         </div>
