@@ -2,6 +2,7 @@ import { City, Weather } from "@/types/types";
 import data from "../data/test_locations.json";
 import { timestampToTime, formatTemperature, isDayTime } from "@/utils/utils";
 import { useState, useEffect } from "react";
+import { Progress } from "./ui/progress";
 
 export default function CityComponent() {
   const [city, setCity] = useState<City["city"]>("");
@@ -25,6 +26,7 @@ export default function CityComponent() {
           });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city]);
 
   const isDay = isDayTime();
@@ -58,7 +60,7 @@ export default function CityComponent() {
               src={
                 weatherData?.weather[0].icon
                   ? `${baseIconUrl}${finalIconCode}.png`
-                  : "../../public/question-mark-is-small-16.png"
+                  : "https://res.cloudinary.com/dl5hp1axh/image/upload/v1691750008/utils/question-mark_nihtia.png"
               }
               alt={weatherData?.weather[0].description}
               className=""
@@ -138,7 +140,12 @@ export default function CityComponent() {
           </div>
         </div>
         <div>
-          <div>4</div>
+          <div className="p-4 flex flex-col">
+            <span className="text-plastic-blue-thin text-sm font-medium p-2 text-end">
+              {weatherData?.main.humidity} % humidity
+            </span>
+            <Progress value={weatherData?.main.humidity} />
+          </div>
         </div>
       </div>
     </div>
