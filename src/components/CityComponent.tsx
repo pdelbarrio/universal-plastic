@@ -8,6 +8,8 @@ import { LocationIcon } from "./Icons";
 export default function CityComponent() {
   const [city, setCity] = useState<City["city"]>("");
   const [weatherData, setWeatherData] = useState<Weather>();
+  const [longitude, setLongitude] = useState<number>(0);
+  const [latitude, setLatitude] = useState<number>(0);
 
   const apiKey = import.meta.env.VITE_API_KEY;
   const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
@@ -19,12 +21,13 @@ export default function CityComponent() {
       if (selectedCity) {
         const [lon, lat] = selectedCity.location.coordinates;
         const url = `${baseUrl}lat=${lat}&lon=${lon}&appid=${apiKey}`;
-
         fetch(url)
           .then((response) => response.json())
           .then((data) => {
             setWeatherData(data);
           });
+        setLongitude(lon);
+        setLatitude(lat);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,7 +120,17 @@ export default function CityComponent() {
               <LocationIcon />
 
               <p className="text-plastic-blue-dark font-semibold">
-                {city ? city : "No data"}
+                {city ? (
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {city}
+                  </a>
+                ) : (
+                  "No data"
+                )}
               </p>
             </div>
           </div>
