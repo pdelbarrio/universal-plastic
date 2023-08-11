@@ -10,6 +10,15 @@ import { LocationContext } from "@/context/Location.context";
 import { useContext, useState, useEffect } from "react";
 import { Slider } from "./ui/slider";
 
+const MAX_RADIUS_KM = 20;
+const RADIUS_MULTIPLIER = 200;
+
+function MapView({ center, zoom }: { center: [number, number]; zoom: number }) {
+  const map = useMap();
+  map.setView(center, zoom);
+  return null;
+}
+
 export default function AreaComponent() {
   const { latitude, longitude } = useContext(LocationContext);
   const [numericLatitude, setNumericLatitude] = useState<number | null>(null);
@@ -28,21 +37,9 @@ export default function AreaComponent() {
     return <p>Invalid data...</p>;
   }
 
-  function ChangeMapView({
-    center,
-    zoom,
-  }: {
-    center: [number, number];
-    zoom: number;
-  }) {
-    const map = useMap();
-    map.setView(center, zoom);
-    return null;
-  }
-
   const handleSliderChange = (values: number[]) => {
-    const value = values[0]; // Assuming the Slider only returns a single value
-    setCircleRadius(value * 200); // 20km max
+    const value = values[0];
+    setCircleRadius(value * RADIUS_MULTIPLIER);
     setZoomLevel(value / 5);
   };
 
@@ -50,14 +47,16 @@ export default function AreaComponent() {
     <div>
       <div className="flex justify-between">
         <h4 className="text-xl font-bold text-plastic-blue-dark py-5">Area</h4>
-        <p className="text-plastic-blue-dark font-thin py-5">max 20 km</p>
+        <p className="text-plastic-blue-dark font-thin py-5">
+          max {MAX_RADIUS_KM} km
+        </p>
       </div>
       <div>
         <Slider
           defaultValue={[50]}
           max={100}
           className="pb-5"
-          onValueChange={(i) => handleSliderChange(i)}
+          onValueChange={(values) => handleSliderChange(values)}
         />
 
         <MapContainer
@@ -71,8 +70,8 @@ export default function AreaComponent() {
             overflow: "hidden",
           }}
         >
-          <ChangeMapView
-            center={[numericLatitude!, numericLongitude!]}
+          <MapView
+            center={[numericLatitude, numericLongitude]}
             zoom={zoomLevel}
           />
           <TileLayer
