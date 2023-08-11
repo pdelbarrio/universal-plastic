@@ -3,6 +3,7 @@ import data from "../data/test_locations.json";
 import { timestampToTime, formatTemperature, isDayTime } from "@/utils/utils";
 import { useState, useEffect } from "react";
 import { Progress } from "./ui/progress";
+import { LocationIcon } from "./Icons";
 
 export default function CityComponent() {
   const [city, setCity] = useState<City["city"]>("");
@@ -36,7 +37,7 @@ export default function CityComponent() {
 
   return (
     <div>
-      <h4 className="scroll-m-20 text-xl font-bold tracking-tight text-plastic-blue-dark text-left py-5">
+      <h4 className="text-xl font-bold tracking-tight text-plastic-blue-dark text-left py-5">
         City
       </h4>
       <div>
@@ -54,7 +55,7 @@ export default function CityComponent() {
         </select>
       </div>
       <div className="border border-plastic-blue rounded-lg p-4 mt-5">
-        <div className="flex flex-row justify-evenly">
+        <div className="flex flex-row gap-5 border-b border-plastic-blue-light pb-3">
           <div>
             <img
               src={
@@ -63,7 +64,7 @@ export default function CityComponent() {
                   : "https://res.cloudinary.com/dl5hp1axh/image/upload/v1691750008/utils/question-mark_nihtia.png"
               }
               alt={weatherData?.weather[0].description}
-              className=""
+              className="border border-gray-200 rounded-full"
             />
           </div>
           <div>
@@ -87,7 +88,7 @@ export default function CityComponent() {
             </p>
           </div>
         </div>
-        <div className="flex flex-row justify-evenly">
+        <div className="flex flex-row gap-10 py-2">
           <div>
             <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
               Sunset
@@ -112,12 +113,16 @@ export default function CityComponent() {
             <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
               Location
             </span>
-            <p className="text-plastic-blue-dark font-semibold">
-              {city ? city : "No data"}
-            </p>
+            <div className="text-plastic-blue-thin flex items-center">
+              <LocationIcon />
+
+              <p className="text-plastic-blue-dark font-semibold">
+                {city ? city : "No data"}
+              </p>
+            </div>
           </div>
         </div>
-        <div className="flex flex-row justify-evenly">
+        <div className="flex flex-row gap-10">
           <div>
             <span className="text-left uppercase text-plastic-blue-thin text-xs font-medium pb-2">
               Temperature
@@ -140,8 +145,8 @@ export default function CityComponent() {
           </div>
         </div>
         <div>
-          <div className="p-4 flex flex-col">
-            <span className="text-plastic-blue-thin text-sm font-medium p-2 text-end">
+          <div className="flex flex-col">
+            <span className="text-plastic-blue-thin text-xs p-2 font-normal text-end">
               {weatherData?.main.humidity} % humidity
             </span>
             <Progress value={weatherData?.main.humidity} />
